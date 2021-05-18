@@ -26,17 +26,14 @@ public class Main {
 
     public static void main(String[] args) {
         // generate the test case
-        //generateTC();
+        generateTC();
 
         // read testcases
         int[] array = readTestCases();
-        Set<Integer> set = new HashSet<>();
-        for (int k : array) {
-            set.add(k);
-        }
 
         // insert all the array items into the BRTree
-        BRTree tree = new BRTree();
+        RBTree tree = new RBTree();
+
         insertArrayItemsIntoTree(array, tree);
 
         // find randomItems in the tree
@@ -45,16 +42,35 @@ public class Main {
 
         randomItems = pickRandomItemsFrom(array, 1000);
         deleteItemsInTree(randomItems, tree);
-        System.out.println(tree.printTree());
+        System.out.println(tree);
     }
 
-    private static void deleteItemsInTree(int[] randomItems, BRTree tree) {
-        for (int j : randomItems) {
-            tree.deleteItem(j);
+    private static void deleteItemsInTree(int[] randomItems, RBTree tree) {
+        SpeedAnalysis analysis;
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("res/analysis_delete.csv"));
+            bw.write("item,item_deleted,item_count,iterations_count,time_in_nanoseconds");
+            bw.write("\n");
+            for (int j : randomItems) {
+                analysis = tree.deleteItemWithAnalysis(j);
+                String line = String.format("%d,%s,%d,%d,%d",
+                        analysis.item,
+                        analysis.isActionSuccess,
+                        analysis.itemCount,
+                        analysis.iterationsCount,
+                        analysis.timeInNano);
+                bw.write(line);
+                bw.write("\n");
+
+            }
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("Failed to add to analysis_insert file");
         }
+
     }
 
-    private static void findItemsInTree(int[] randomItems, BRTree tree) {
+    private static void findItemsInTree(int[] randomItems, RBTree tree) {
         SpeedAnalysis analysis;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("res/analysis_find.csv"));
@@ -94,7 +110,7 @@ public class Main {
         return result;
     }
 
-    private static void insertArrayItemsIntoTree(int[] array, BRTree tree) {
+    private static void insertArrayItemsIntoTree(int[] array, RBTree tree) {
         SpeedAnalysis analysis;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("res/analysis_insert.csv"));
@@ -112,6 +128,8 @@ public class Main {
                     bw.write("\n");
                 }
             }
+            bw = new BufferedWriter(new FileWriter("res/pretty_tree.txt"));
+            bw.write(tree.toString());
             bw.close();
         } catch (IOException e) {
             System.out.println("Failed to add to analysis_insert file");

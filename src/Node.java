@@ -15,24 +15,22 @@ public class Node {
     public Node left;
     public Node right;
     public Node parent;
-    /**
-     * true = RED
-     * false = BLACK
-     */
-    public boolean isRed;
+    // 1 . Red, 0 . Black
+    public int color;
 
     public Node(int value) {
-        this(value, Node.TERMINAL, Node.TERMINAL, true);
+        this(value, Node.TERMINAL, Node.TERMINAL, 1);
     }
+    public Node(){}
 
-    public Node(int value, Node left, Node right, boolean isRed) {
+    public Node(int value, Node left, Node right, int color) {
         this.value = value;
         this.left = left;
         this.right = right;
-        this.isRed = isRed;
+        this.color = color;
     }
 
-    public static final Node TERMINAL = new Node(0, null, null, false);
+    public static final Node TERMINAL = new Node(0, null, null, 0);
 
     public Node getGrandParent() {
         return Optional.of(this)
