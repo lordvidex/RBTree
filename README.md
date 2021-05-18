@@ -12,17 +12,17 @@ specified operations
 ### TESTCASE
 
 `test_case.txt` file contains test cases generated
-from [TCGenerator.java](https://github.com/lordvidex/RBTree/tree/main/src/TCGenerator.java)
+from [TCGenerator.java](https://github.com/lordvidex/RBTree/tree/master/src/TCGenerator.java)
 
 ### PRETTY_TREE
 
 Run the command in terminal to view `pretty_tree.txt` properly  
 
 *Linux/Unix based OS*
->> **$ less -R res/pretty_tree.txt**  
+> **$ less -R res/pretty_tree.txt**  
 
 *Windows OS*
-> > **> more res/pretty_tree.txt** 
+> **> more res/pretty_tree.txt** 
 
 **PS:** if `more` does not work on Windows, 
 - use bash with the linux command
